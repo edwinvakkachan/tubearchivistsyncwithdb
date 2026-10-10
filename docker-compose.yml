@@ -2,22 +2,16 @@ version: "3.8"
 
 services:
 
-  jellyfin-tubearchivist-sync:
+  tubearchivistsyncwithdb:
 
     build: .
 
-    container_name: jellyfintubesync
+    container_name: tubearchivistsyncwithdb
 
     restart: unless-stopped
 
     environment:
       DATABASE_URL: ${DATABASE_URL}
-      JELLYFIN_SOURCE_USER_ID: ${JELLYFIN_SOURCE_USER_ID}
-      JELLYFIN_TARGET_USER_ID: ${JELLYFIN_TARGET_USER_ID}
-      JELLYFIN_URL: ${JELLYFIN_URL}
-      JELLYFIN_API: ${JELLYFIN_API}
-      JELLYFIN_USER_ID: ${JELLYFIN_USER_ID}
-
       TUBEARCHIVIST_URL: ${TUBEARCHIVIST_URL}
       TUBEARCHIVIST_API: ${TUBEARCHIVIST_API}
 
