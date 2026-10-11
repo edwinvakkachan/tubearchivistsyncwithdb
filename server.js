@@ -3,12 +3,11 @@ import { tubeArchivistWatcher } from "./workers/tubeArchivistWatcher.js";
 import { syncWorker } from "./workers/syncWorker.js";
 import { initDB } from "./supabase/db.js";
 import dotenv from "dotenv";
+import { deleteOldTubeWatchedRows } from "./supabase/deleteOldTubeWatchedRows.js";
 
 dotenv.config();
 
 async function main() {
-
-
 
 async function runTask(name, task) {
   try {
@@ -36,14 +35,22 @@ try {
   );
 
   await runTask("Sync worker", () => syncWorker());
+await runTask(
+  "Delete old TubeWatched rows",
+  () => deleteOldTubeWatchedRows()
+);
 
   console.log("\n✅ SYNC CYCLE FINISHED");
 
 } catch (error) {
-  console.error("❌ Unexpected main-loop error:", error.message);
+  console.error("💥 Sync worker failed:", error);
+console.error("Error name:", error?.name);
+console.error("Error message:", error?.message);
+console.error("Error code:", error?.code);
+console.error("Error stack:", error?.stack);
 }
 
-process.exit(0)
+
   }
 
 main();
